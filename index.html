@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Практика в Театре на Бронной — Кристина Кондрина, ГИТИС 2026</title>
+<link rel="icon" href="img/bronnaya.svg">
+<style>
+@font-face{font-family:I;src:url(fonts/Inter-Thin.woff) format('woff');font-weight:100}
+@font-face{font-family:I;src:url(fonts/Inter-Light.woff) format('woff');font-weight:300}
+@font-face{font-family:I;src:url(fonts/Inter-Regular.woff) format('woff');font-weight:400}
+@font-face{font-family:I;src:url(fonts/Inter-Medium.woff) format('woff');font-weight:500}
+@font-face{font-family:I;src:url(fonts/Inter-Bold.woff) format('woff');font-weight:700}
+@font-face{font-family:I;src:url(fonts/Inter-ExtraBold.woff) format('woff');font-weight:800}
+:root{--blue:#31abd2;--g1:#9B9B9B;--g2:#4A4A4A;--g3:#d2d2d2;--g4:#f1f1f1;--ease:cubic-bezier(.2,.7,.1,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0b0b;overflow:hidden;font-family:I,Inter,Arial,sans-serif;color:#000;-webkit-font-smoothing:antialiased}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#deck{width:1920px;height:1080px;position:relative;transform-origin:center center;background:#fff;overflow:hidden}
+.slide{position:absolute;inset:0;padding:90px 110px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s .9s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.slide.dark{background:#000;color:#fff}
+/* reveal system */
+.r{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);transition-delay:calc(var(--d,0)*1s + .15s)}
+.r.l{transform:translateX(-60px)} .r.rr{transform:translateX(60px)} .r.z{transform:scale(.92)}
+.on .r{opacity:1;transform:none}
+/* chrome */
+.brand{position:absolute;left:110px;top:56px;display:flex;align-items:center;gap:14px;font-size:20px;line-height:1.05;font-weight:500;z-index:5}
+.brand img{height:46px}
+.dark .brand img{filter:invert(1)}
+.kick{position:absolute;right:110px;top:66px;color:var(--blue);font-weight:700;font-size:18px;letter-spacing:.06em;z-index:5}
+.pg{position:absolute;right:110px;bottom:46px;font-size:16px;color:var(--g1);z-index:5}
+h1{font-size:118px;font-weight:800;line-height:.95;letter-spacing:-.035em;text-transform:uppercase}
+h2{font-size:76px;font-weight:800;line-height:1;letter-spacing:-.03em;text-transform:uppercase}
+h2 .s,h1 .s{color:var(--g1);font-weight:200}
+.dark h2 .s,.dark h1 .s{color:#777}
+.lead{font-size:30px;line-height:1.35;color:var(--g2);max-width:1100px}
+.dark .lead{color:#bbb}
+.blue{color:var(--blue)}
+.line{height:6px;background:#000;width:0;transition:width 1.4s var(--ease) .2s}
+.on .line{width:100%}
+.dark .line{background:#fff}
+/* photos */
+.ph{position:absolute;overflow:hidden;background:#222}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.14);transition:transform 9s linear}
+.on .ph img{transform:scale(1.0)}
+.ph.bw img{filter:grayscale(1) contrast(1.1)}
+.ph .cap{position:absolute;left:14px;bottom:10px;font-size:14px;color:#fff;text-shadow:0 1px 4px #000}
+/* title */
+#s1 .ph{left:960px;top:0;width:960px;height:1080px}
+#s1 .ph2{position:absolute;left:880px;top:640px;width:360px;height:300px;z-index:3;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+#s1 .title{position:absolute;left:110px;top:250px;width:860px}
+#s1 h1{font-size:92px}
+#s1 .meta{position:absolute;left:110px;bottom:70px;width:740px;font-size:20px;line-height:1.5;color:var(--g2)}
+#s1 .meta b{color:#000;font-weight:700}
+#s1 .gitis{position:absolute;left:110px;top:150px;height:34px}
+/* goals */
+.cols{display:grid;gap:40px}
+.card{border-top:6px solid #000;padding-top:22px}
+.card .n{font-size:84px;font-weight:100;line-height:1;color:var(--g1)}
+.card .t{font-size:30px;font-weight:800;margin-top:10px;line-height:1.15}
+.card .x{font-size:22px;color:var(--g2);margin-top:12px;line-height:1.4}
+.card.b{border-color:var(--blue)} .card.b .n{color:var(--blue)}
+/* divider */
+.div .ph{inset:0}
+.div .ph img{filter:brightness(.55)}
+.div .big{position:absolute;left:110px;bottom:120px;z-index:3;color:#fff}
+.div .big .no{font-size:220px;font-weight:100;line-height:.8;color:var(--blue)}
+.div .big h1{font-size:150px;margin-top:20px}
+.div .big .lead{color:#ddd;margin-top:18px}
+/* numbers */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px}
+.num{border-top:1px solid var(--g3);padding:22px 20px 26px 0}
+.num .v{font-size:86px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.num .v small{font-size:40px;font-weight:300}
+.num .k{font-size:20px;color:var(--g2);margin-top:8px;line-height:1.3}
+.num .src{font-size:13px;color:var(--g1);margin-top:6px}
+/* quotes 3D */
+.stage3d{position:absolute;perspective:1400px;perspective-origin:50% 40%}
+.q3{position:absolute;transform-style:preserve-3d;will-change:transform}
+.q{position:absolute;max-width:640px;font-weight:300;line-height:1.15;letter-spacing:-.01em;transform-style:preserve-3d;transition:opacity 1.4s var(--ease),transform 2s var(--ease);opacity:0}
+.on .q{opacity:1}
+.q b{font-weight:800}
+.q .who{display:block;font-size:17px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--blue);margin-top:14px}
+.q::before{content:"«";position:absolute;left:-.55em;top:-.05em;color:var(--blue);font-weight:200}
+.float{animation:fl 9s ease-in-out infinite alternate}
+@keyframes fl{0%{translate:0 -10px}100%{translate:0 12px}}
+/* timeline */
+.tl{position:absolute;left:110px;right:110px;top:360px;height:560px}
+.tl .rail{position:absolute;left:0;right:0;top:56px;height:4px;background:var(--g3)}
+.tl .fill{position:absolute;left:0;top:56px;height:4px;background:var(--blue);width:0;transition:width 4.2s linear .6s}
+.on .tl .fill{width:100%}
+.tl .dot{position:absolute;top:36px;left:0;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center;transition:left 4.2s linear .6s;box-shadow:0 0 0 10px rgba(49,171,210,.18)}
+.on .tl .dot{left:calc(100% - 44px)}
+.tl .bl{position:absolute;top:0;width:calc((100% - 6*18px)/7)}
+.bl .n{font-size:40px;font-weight:200;color:var(--g1);height:50px}
+.bl .c{margin-top:30px;border-top:6px solid #000;padding-top:14px}
+.bl .t{font-size:25px;font-weight:800;line-height:1.1;min-height:56px}
+.bl .rg{font-size:17px;color:var(--blue);font-weight:700;margin-top:8px}
+.bl .x{font-size:18px;color:var(--g2);margin-top:10px;line-height:1.35}
+.bl .cnt{font-size:64px;font-weight:100;margin-top:14px;line-height:1}
+.bl.hot .c{border-color:var(--blue)}
+/* network */
+.net{position:absolute;left:880px;top:170px;width:920px;height:820px}
+.net svg{position:absolute;inset:0}
+.node{position:absolute;transform:translate(-50%,-50%);background:#fff;border:2px solid #000;padding:10px 16px;font-size:18px;font-weight:700;white-space:nowrap;transition:background .4s,color .4s}
+.node.c{background:var(--blue);color:#fff;border-color:var(--blue);font-size:26px;padding:18px 28px}
+.node.lit{background:#000;color:#fff}
+/* docs mosaic */
+.doc{position:absolute;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.18);overflow:hidden}
+.doc img{width:100%;display:block}
+.doc .tag{position:absolute;left:0;bottom:0;right:0;background:var(--blue);color:#fff;font-size:16px;font-weight:700;padding:7px 10px}
+.tagx{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:18px;padding:5px 10px;margin:4px 6px 0 0}
+ul.ticks{list-style:none;margin-top:30px}
+ul.ticks li{font-size:25px;line-height:1.35;padding:14px 0 14px 46px;border-bottom:1px solid var(--g4);position:relative}
+ul.ticks li::before{content:"";position:absolute;left:0;top:24px;width:24px;height:6px;background:var(--blue)}
+ul.ticks li b{font-weight:800}
+/* end */
+#qrbox{width:300px;height:300px;background:#fff;padding:18px}
+#qrbox img,#qrbox svg{width:100%;height:100%}
+/* nav */
+#bar{position:fixed;left:0;bottom:0;height:4px;background:var(--blue);transition:width .6s var(--ease);z-index:20}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(15,15,15,.96);color:#eee;font-size:20px;line-height:1.5;padding:22px 40px 30px;transform:translateY(105%);transition:transform .4s var(--ease);z-index:30}
+#notes.show{transform:none}
+#notes .h{color:var(--blue);font-weight:700;font-size:14px;letter-spacing:.08em;margin-bottom:8px}
+#hint{position:fixed;right:16px;bottom:12px;color:#777;font-size:12px;z-index:25;font-family:I,Arial}
+aside.say{display:none}
+.navbtn{position:fixed;top:0;bottom:0;width:12vw;z-index:15;cursor:pointer}
+#prev{left:0} #next{right:0}
+/* print speech */
+body.print{overflow:auto;background:#fff;height:auto}
+@media print{html,body{height:auto!important;overflow:visible!important;background:#fff}}
+body.print #viewport,body.print #bar,body.print #hint,body.print .navbtn,body.print #notes{display:none}
+#speech{display:none;max-width:800px;margin:40px auto;font-family:I,Arial;color:#000}
+body.print #speech{display:block}
+#speech h1{font-size:30px;text-transform:none;letter-spacing:0;line-height:1.2;margin-bottom:6px}
+#speech .sub{color:#666;margin-bottom:30px;font-size:15px}
+#speech h3{font-size:17px;color:var(--blue);margin:26px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+#speech p{font-size:17px;line-height:1.55}
+@media print{#speech h3{break-after:avoid}#speech p{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="deck">
+
+<!-- 1 ТИТУЛ -->
+<section class="slide" id="s1">
+  <div class="brand r"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div>
+  <img class="gitis r" style="--d:.1" src="img/gitis.svg" alt="ГИТИС">
+  <div class="title">
+    <div class="r" style="--d:.2;font-size:22px;font-weight:700;letter-spacing:.08em;color:var(--blue)">ОТЧЁТ ПО ПРОИЗВОДСТВЕННОЙ (АДМИНИСТРАТИВНОЙ) ПРАКТИКЕ</div>
+    <h1 class="r" style="--d:.35;margin-top:26px">Как театр выпускает спектакль<span class="s"> / и что делала я</span></h1>
+    <p class="lead r" style="--d:.6;margin-top:30px">Театр на Бронной, отдел главного продюсера,<br>6–19 ноября 2026</p>
+  </div>
+  <div class="ph r z" style="--d:.1"><img src="img/p05.jpg" alt="Зрительный зал Театра на Бронной"></div>
+  <div class="ph ph2 r" style="--d:.9"><img src="img/p04.jpg" alt="Вход в театр"></div>
+  <div class="meta r" style="--d:1.0"><b>Кристина Кондрина</b>, практикант, 2 курс, продюсерский факультет ГИТИСа<br>Руководитель практики от ГИТИСа: <b>Ольга Эдуардовна Соколова</b><br>Руководитель практики от театра: <b>Дарья Павловна Нестратова</b>, главный продюсер</div>
+  <aside class="say">Здравствуйте! Меня зовут Кристина Кондрина, я учусь на втором курсе продюсерского факультета. Производственную практику я проходила в Театре на Бронной, в отделе главного продюсера, с 6 по 19 ноября. Руководитель практики от театра Дарья Павловна Нестратова, главный продюсер, от ГИТИСа Ольга Эдуардовна Соколова.</aside>
+</section>
+
+<!-- 2 ЦЕЛЬ -->
+<section class="slide" id="s2">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">01 / ЦЕЛЬ И ЗАДАЧИ</div>
+  <h2 class="r" style="margin-top:110px">Цель практики</h2>
+  <p class="lead r" style="--d:.2;margin-top:24px;max-width:1300px">Овладеть основами профессии администратора, изучить планирование и весь комплекс работ по эксплуатации текущего репертуара театра.</p>
+  <div class="cols" style="grid-template-columns:repeat(3,1fr);margin-top:70px">
+    <div class="card r" style="--d:.4"><div class="n">01</div><div class="t">Репертуар и годовая афиша</div><div class="x">Как театр выбирает названия и собирает сезон</div></div>
+    <div class="card r" style="--d:.55"><div class="n">02</div><div class="t">Планирование и эксплуатация репертуара</div><div class="x">Месячная афиша, продажи, маркетинг</div></div>
+    <div class="card r" style="--d:.7"><div class="n">03</div><div class="t">Организация зрительской аудитории</div><div class="x">Служба зала, обратная связь, программы для зрителей</div></div>
+  </div>
+  <div class="r" style="--d:1;margin-top:70px;display:flex;gap:30px;align-items:center">
+    <div style="width:14px;height:110px;background:var(--blue)"></div>
+    <div style="font-size:30px;line-height:1.35"><b>Где я работала:</b> отдел главного продюсера, выпуск спектакля<br><b>«Курьер 2007»</b> Сергея Ходькова по повести Карена Шахназарова</div>
+  </div>
+  <div class="pg">2</div>
+  <aside class="say">По заданию цель практики: освоить основы работы администратора и понять, как театр планирует и эксплуатирует текущий репертуар. Задач три: изучить, как формируется репертуар и годовая афиша, как планируют и продают спектакли и как театр работает со зрителем. Работала я в отделе главного продюсера на выпуске спектакля «Курьер 2007» Сергея Ходькова. Он и стал моим главным кейсом.</aside>
+</section>
+
+<!-- 3 РАЗДЕЛИТЕЛЬ ТЕАТР -->
+<section class="slide dark div" id="s3">
+  <div class="ph"><img src="img/p06.jpg" alt="Зрительный зал"></div>
+  <div class="brand" style="z-index:4"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div>
+  <div class="big"><div class="no r">01</div><h1 class="r" style="--d:.2">Театр</h1><p class="lead r" style="--d:.4">Каким я увидела Театр на Бронной в ноябре 2026 года</p></div>
+  <aside class="say">Сначала коротко о самом театре.</aside>
+</section>
+
+<!-- 4 ТЕАТР СЕГОДНЯ -->
+<section class="slide" id="s4">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">01 / ТЕАТР СЕГОДНЯ</div>
+  <h2 class="r" style="margin-top:100px">Театр сегодня<span class="s"> / 8 цифр</span></h2>
+  <div style="display:grid;grid-template-columns:1fr 520px;gap:60px">
+  <div class="nums" style="grid-template-columns:repeat(4,1fr)">
+    <div class="num r" style="--d:.2"><div class="v" data-count="1945">1945</div><div class="k">год основания театра</div><div class="src">брендбук театра</div></div>
+    <div class="num r" style="--d:.3"><div class="v" data-count="2019">2019</div><div class="k">Константин Богомолов возглавил театр</div><div class="src">сайт театра</div></div>
+    <div class="num r" style="--d:.4"><div class="v" data-count="29">29</div><div class="k">спектаклей в репертуаре</div><div class="src">сайт, 9.11.2026</div></div>
+    <div class="num r" style="--d:.5"><div class="v" data-count="15">15</div><div class="k">из них поставил художественный руководитель</div><div class="src">сайт, 9.11.2026</div></div>
+    <div class="num r" style="--d:.6"><div class="v" data-count="78">78</div><div class="k">артистов в труппе</div><div class="src">сайт, ноябрь 2026</div></div>
+    <div class="num r" style="--d:.7"><div class="v" data-count="334">334</div><div class="k">спектакля за сезон 2024/25</div><div class="src">пресс-служба театра, ТАСС</div></div>
+    <div class="num r" style="--d:.8"><div class="v"><span data-count="140">140</span><small> тыс.</small></div><div class="k">зрителей за сезон 2024/25</div><div class="src">пресс-служба театра, ТАСС</div></div>
+    <div class="num r" style="--d:.9"><div class="v"><span data-count="54">54</span><small> %</small></div><div class="k">доходов 2025 года дали платные услуги</div><div class="src">отчёт о финрезультатах</div></div>
+  </div>
+  <div style="position:relative;height:720px;margin-top:40px">
+    <div class="ph r rr" style="--d:.3;left:0;top:0;width:520px;height:330px"><img src="img/p04.jpg" alt=""><div class="cap">Вход, Малая Бронная, 4</div></div>
+    <div class="ph r rr" style="--d:.5;left:0;top:350px;width:250px;height:250px"><img src="img/p08.jpg" alt=""><div class="cap">Фойе</div></div>
+    <div class="ph r rr" style="--d:.7;left:270px;top:350px;width:250px;height:250px"><img src="img/p00.jpg" alt=""><div class="cap">Здание, начало XX века</div></div>
+    <div class="r" style="--d:1;position:absolute;left:0;top:620px;font-size:19px;line-height:1.4;color:var(--g2)"><b style="color:#000">Площадки:</b> Сцена на Бронной, Малая сцена, двор театра и Сцена на Стромынке</div>
+  </div>
+  </div>
+  <div class="pg">4</div>
+  <aside class="say">Театр на Бронной существует с 1945 года, с 2019 года его возглавляет Константин Юрьевич Богомолов. Сейчас в репертуаре 29 спектаклей, 15 из них поставил сам художественный руководитель. В труппе 78 артистов. За сезон 2024/25 театр сыграл 334 спектакля, их посмотрели 140 тысяч зрителей. Больше половины доходов театр зарабатывает сам: в 2025 году платные услуги дали 54 процента. Играют на Сцене на Бронной, на Малой сцене, во дворе театра и на Сцене на Стромынке.</aside>
+</section>
+
+<!-- 5 СТРУКТУРА -->
+<section class="slide" id="s5">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">01 / СТРУКТУРА</div>
+  <h2 class="r" style="margin-top:100px">Как устроен театр</h2>
+  <p class="lead r" style="--d:.15;margin-top:18px;max-width:760px;font-size:26px">Официальной схемы подчинения в открытом доступе нет. Я собрала её сама: по сайту театра, регламенту выпуска и беседам со службами.</p>
+  <div style="position:absolute;left:110px;top:450px;width:760px">
+    <div class="r" style="--d:.3;display:flex;gap:16px;margin-bottom:20px"><div style="border:3px solid #000;padding:12px 20px;font-weight:800;font-size:22px">Художественный руководитель</div><div style="border:3px solid #000;padding:12px 20px;font-weight:800;font-size:22px">Директор</div></div>
+    <div style="display:grid;grid-template-columns:1fr;gap:10px">
+      <div class="r l" style="--d:.45;background:#000;color:#fff;padding:14px 20px;font-weight:800;font-size:21px">ТВОРЧЕСКАЯ ЧАСТЬ <span style="font-weight:400;color:#aaa;font-size:18px"> главный режиссёр · режиссёрско-актёрское подразделение · музыкальная часть</span></div>
+      <div class="r l" style="--d:.55;background:var(--blue);color:#fff;padding:14px 20px;font-weight:800;font-size:21px">ВЫПУСК И ПРОИЗВОДСТВО <span style="font-weight:400;font-size:18px;color:#e6f6fb"> продюсерский отдел · ХПЧ · цеха</span></div>
+      <div class="r l" style="--d:.65;background:#000;color:#fff;padding:14px 20px;font-weight:800;font-size:21px">ФИНАНСЫ И ПРАВО <span style="font-weight:400;color:#aaa;font-size:18px"> экономисты · бухгалтерия · юристы · закупки</span></div>
+      <div class="r l" style="--d:.75;background:#000;color:#fff;padding:14px 20px;font-weight:800;font-size:21px">ЗРИТЕЛЬ И ПРОДАЖИ <span style="font-weight:400;color:#aaa;font-size:18px"> продажи · PR и маркетинг · служба зала</span></div>
+      <div class="r l" style="--d:.85;background:#000;color:#fff;padding:14px 20px;font-weight:800;font-size:21px">ЗДАНИЕ И ТЕХНИКА <span style="font-weight:400;color:#aaa;font-size:18px"> зам. директора · хозяйство · охрана</span></div>
+    </div>
+    <div class="r" style="--d:1.1;margin-top:18px"><span class="tagx">Полная схема — Приложение 13</span></div>
+  </div>
+  <div class="stage3d" style="left:930px;top:160px;width:880px;height:860px">
+    <div class="q3" data-par="1" style="width:100%;height:100%">
+      <div class="q float" style="left:60px;top:60px;font-size:50px;transform:translateZ(120px) rotateY(-8deg);transition-delay:.6s">Со всеми, <b>абсолютно со всеми</b><span class="who">Татьяна Воронова, помощник художественного руководителя</span></div>
+      <div class="q float" style="left:240px;top:350px;font-size:36px;transform:translateZ(-60px) rotateY(-14deg);animation-delay:-3s;transition-delay:1s">Наш руководитель Лариса Сергеевна, <b>потому что художник</b><span class="who">Илья, менеджер ХПЧ</span></div>
+      <div class="q float" style="left:40px;top:610px;font-size:34px;transform:translateZ(40px) rotateY(-6deg);animation-delay:-6s;transition-delay:1.4s">Я искала барочную флейту. <b>Это был большой кастинг</b><span class="who">Екатерина Гусар, заведующая музыкальной частью</span></div>
+    </div>
+  </div>
+  <div class="pg">5</div>
+  <aside class="say">Официальной схемы подчинения в открытом доступе нет, поэтому я собрала её сама: по сайту театра, по регламенту выпуска и по беседам со службами. Наверху художественный руководитель и директор, дальше пять групп: творческая часть, выпуск и производство, финансы и право, зритель и продажи, здание и техника. Мне было важно поговорить с людьми из разных групп. Помощник художественного руководителя Татьяна Воронова сказала, что по работе связана «со всеми, абсолютно со всеми». В ХПЧ мне объяснили, что руководит ими главный художник Лариса Ломакина. А заведующая музыкальной частью Екатерина Гусар рассказала, как по задаче художественного руководителя искала контртеноров и барочную флейту.</aside>
+</section>
+
+<!-- 6 РАЗДЕЛИТЕЛЬ ВЫПУСК -->
+<section class="slide dark div" id="s6">
+  <div class="ph"><img src="img/p07.jpg" alt="Коридор театра"></div>
+  <div class="brand" style="z-index:4"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div>
+  <div class="big"><div class="no r">02</div><h1 class="r" style="--d:.2">Выпуск</h1><p class="lead r" style="--d:.4">57 этапов от первой беседы с режиссёром до итоговой сметы</p></div>
+  <aside class="say">Теперь главное, что я изучила: как выпускается спектакль.</aside>
+</section>
+
+<!-- 7 ВЫПУСК 7 БЛОКОВ -->
+<section class="slide" id="s7">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">02 / ВЫПУСК СПЕКТАКЛЯ</div>
+  <h2 class="r" style="margin-top:100px">7 блоков<span class="s"> / <span data-count="57">57</span> этапов</span></h2>
+  <p class="lead r" style="--d:.15;margin-top:16px;font-size:26px">Регламент продюсерского отдела. Через все блоки проект ведёт <b style="color:var(--blue)">продюсер</b> (в регламенте: менеджер-координатор).</p>
+  <div class="tl">
+    <div class="rail"></div><div class="fill"></div><div class="dot">П</div>
+    <div class="bl r" style="--d:.3;left:0"><div class="n">01</div><div class="c"><div class="t">Замысел и права</div><div class="rg">этапы 1–4</div><div class="x">Без договора с правообладателем нет репетиций</div><div class="cnt">4</div></div></div>
+    <div class="bl r" style="--d:.45;left:calc(1*(100% - 6*18px)/7 + 18px)"><div class="n">02</div><div class="c"><div class="t">Команда и бюджет</div><div class="rg">этапы 5–11</div><div class="x">Гонорары, лимиты, приказ о начале работ</div><div class="cnt">7</div></div></div>
+    <div class="bl r hot" style="--d:.6;left:calc(2*(100% - 6*18px)/7 + 36px)"><div class="n blue">03</div><div class="c"><div class="t">Подготовка и защита</div><div class="rg">этапы 12–18</div><div class="x">Предзащита и творческая защита у руководства</div><div class="cnt blue">7</div></div></div>
+    <div class="bl r" style="--d:.75;left:calc(3*(100% - 6*18px)/7 + 54px)"><div class="n">04</div><div class="c"><div class="t">Документы и договоры</div><div class="rg">этапы 19–36</div><div class="x">Пары договоров, права, бюджет, приказы</div><div class="cnt">18</div></div></div>
+    <div class="bl r" style="--d:.9;left:calc(4*(100% - 6*18px)/7 + 72px)"><div class="n">05</div><div class="c"><div class="t">Производство</div><div class="rg">этапы 37–46</div><div class="x">Мастерские, примерки, закупки, фонд</div><div class="cnt">10</div></div></div>
+    <div class="bl r" style="--d:1.05;left:calc(5*(100% - 6*18px)/7 + 90px)"><div class="n">06</div><div class="c"><div class="t">Прогоны и премьера</div><div class="rg">этапы 47–51</div><div class="x">Показ худруку, приёмка, монтаж, цветы</div><div class="cnt">5</div></div></div>
+    <div class="bl r" style="--d:1.2;left:calc(6*(100% - 6*18px)/7 + 108px)"><div class="n">07</div><div class="c"><div class="t">Закрытие</div><div class="rg">этапы 52–57</div><div class="x">Акты, выплаты, итоговая смета</div><div class="cnt">5</div></div></div>
+  </div>
+  <div class="r" style="--d:1.6;position:absolute;left:110px;bottom:70px"><span class="tagx">Схемы 1 и 3 — Приложение 1</span></div>
+  <div class="pg">7</div>
+  <aside class="say">В продюсерском отделе есть регламент выпуска из 57 этапов. Его мне дала продюсер Анастасия Демакина. Я сгруппировала этапы в семь блоков: замысел и права, команда и бюджет, подготовка и защита, документы и договоры, производство, прогоны и премьера, закрытие проекта. Через все блоки проект ведёт продюсер, в регламенте эта роль называется менеджер-координатор. Самый большой блок документы и договоры, в нём 18 этапов. А самое строгое правило в первом блоке: без подписанного договора с правообладателем репетиции не начинаются.</aside>
+</section>
+
+<!-- 8 ЗАЩИТА И СЛУЖБЫ -->
+<section class="slide" id="s8">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">02 / ЗАЩИТА</div>
+  <h2 class="r" style="margin-top:100px;max-width:760px">Кто решает судьбу спектакля</h2>
+  <p class="lead r" style="--d:.2;margin-top:24px;max-width:720px;font-size:27px">Творческая защита: каждый смотрит со своей стороны. Худрук оценивает замысел, главный художник и ХПЧ выполнимость, директор деньги, маркетинг продвижение.</p>
+  <div class="r" style="--d:.5;margin-top:50px;max-width:720px;border-left:8px solid var(--blue);padding:6px 0 6px 28px">
+    <div style="font-size:34px;font-weight:300;line-height:1.25">На каждую роль участника команды театр заключает <b>два договора</b>: на услугу и об отчуждении прав.</div>
+    <div style="font-size:17px;color:var(--blue);font-weight:700;letter-spacing:.04em;margin-top:12px">ПО СЛОВАМ АНАСТАСИИ ДЕМАКИНОЙ, ПРОДЮСЕРА</div>
+  </div>
+  <div class="net" id="net">
+    <svg id="netsvg" viewBox="0 0 920 820"></svg>
+    <div class="node c" style="left:460px;top:410px">ЗАЩИТА</div>
+  </div>
+  <div class="pg">8</div>
+  <aside class="say">Ключевая точка выпуска творческая защита. На ней собираются художественный руководитель, главный художник, директор, заместитель директора по техническим вопросам, вся ХПЧ, режиссёрско-актёрское подразделение, маркетинг и продюсер. Каждый смотрит со своей стороны: замысел, выполнимость, деньги, продвижение. Ещё меня удивили пары договоров. На каждую роль участника команды театр заключает договор на услугу и отдельно договор об отчуждении прав. Как объяснила продюсер Анастасия Демакина, договор на услугу сам по себе не значит, что театр получил права на результат.</aside>
+</section>
+
+<!-- 9 КУРЬЕР -->
+<section class="slide" id="s9">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">02 / КЕЙС «КУРЬЕР 2007»</div>
+  <h2 class="r" style="margin-top:100px">«Курьер 2007»<span class="s"> / вживую</span></h2>
+  <ul class="ticks" style="width:820px">
+    <li class="r" style="--d:.2"><b>Права:</b> письма Карену Шахназарову и в РАО <span class="blue">· Прил. 7</span></li>
+    <li class="r" style="--d:.3"><b>Команда:</b> 11 заявок на договоры <span class="blue">· Прил. 2</span></li>
+    <li class="r" style="--d:.4"><b>Защита:</b> опись декорации <span class="blue">· Прил. 3</span></li>
+    <li class="r" style="--d:.5"><b>Бюджет:</b> предварительная и рабочая сметы <span class="blue">· Прил. 5</span></li>
+    <li class="r" style="--d:.6"><b>Договоры:</b> пары договоров с режиссёром <span class="blue">· Прил. 6</span></li>
+    <li class="r" style="--d:.7"><b>Производство:</b> встреча с мастерской о зеркальном панно и лестнице</li>
+    <li class="r" style="--d:.8"><b>Зал:</b> проект приказа о схеме зала <span class="blue">· Прил. 8</span></li>
+  </ul>
+  <p class="r" style="--d:1;margin-top:18px;font-size:18px;color:var(--g1)">Суммы и личные данные в документах закрыты</p>
+  <div style="position:absolute;left:1000px;top:260px;width:820px;height:780px;perspective:1600px">
+    <div class="doc r" style="--d:.4;left:0;top:60px;width:300px;transform:rotate(-6deg)"><img src="img/doc_pismo.jpg" alt=""><div class="tag">Письма · Прил. 7</div></div>
+    <div class="doc r" style="--d:.55;left:260px;top:0;width:300px;transform:rotate(3deg)"><img src="img/doc_smeta.jpg" alt=""><div class="tag">Смета · Прил. 5</div></div>
+    <div class="doc r" style="--d:.7;left:520px;top:80px;width:290px;transform:rotate(-2deg)"><img src="img/doc_dogovor.jpg" alt=""><div class="tag">Договор · Прил. 6</div></div>
+    <div class="doc r" style="--d:.85;left:120px;top:400px;width:300px;transform:rotate(4deg)"><img src="img/doc_opis.jpg" alt=""><div class="tag">Опись · Прил. 3</div></div>
+    <div class="doc r" style="--d:1;left:430px;top:420px;width:300px;transform:rotate(-5deg)"><img src="img/doc_prikaz.jpg" alt=""><div class="tag">Приказ · Прил. 8</div></div>
+  </div>
+  <div class="pg">9</div>
+  <aside class="say">На «Курьере 2007» я увидела почти все блоки вживую. Права: письма Карену Шахназарову и в РАО. Команда: одиннадцать заявок на договоры. Для защиты художник готовит опись декорации. Бюджет: предварительная и рабочая сметы. Пары договоров с режиссёром. Производство: я была на встрече с мастерской, где искали выполнимый вариант зеркального панно и лестницы. И проект приказа о схеме зала, после которого открывают продажи. Все документы в приложениях, суммы и личные данные в них закрыты.</aside>
+</section>
+
+<!-- 10 МОЯ РАБОТА -->
+<section class="slide" id="s10">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">02 / ЧТО СДЕЛАЛА Я</div>
+  <h2 class="r" style="margin-top:100px">Моя работа</h2>
+  <div class="cols" style="grid-template-columns:repeat(5,1fr);gap:26px;margin-top:60px">
+    <div class="card b r" style="--d:.2"><div class="n">01</div><div class="t">Спецификация для фонда</div><div class="x">Костюмы и реквизит по описи · Прил. 4</div></div>
+    <div class="card r" style="--d:.35"><div class="n" data-count="332">332</div><div class="t">ссылки на реквизит</div><div class="x">Подбор по описи художника Михаила Гербера, проверка каждой</div></div>
+    <div class="card r" style="--d:.5"><div class="n">13,8<small style="font-size:40px">%</small></div><div class="t">сверка текста</div><div class="x">Столько в пьесе заимствовано из повести и фильма</div></div>
+    <div class="card r" style="--d:.65"><div class="n">03</div><div class="t">схемы театра и выпуска</div><div class="x">Структура и 57 этапов · Прил. 1, 13</div></div>
+    <div class="card r" style="--d:.8"><div class="n">10</div><div class="t">идей партнёрств</div><div class="x">Для отдела PR и маркетинга</div></div>
+  </div>
+  <div style="position:absolute;left:110px;right:110px;bottom:90px;height:380px">
+    <div class="doc r" style="--d:.9;left:0;top:20px;width:260px;transform:rotate(-3deg)"><img src="img/doc_spec.jpg" alt=""><div class="tag">Спецификация</div></div>
+    <div class="ph r" style="--d:1;left:300px;top:0;width:560px;height:380px;box-shadow:0 20px 60px rgba(0,0,0,.18)"><img src="img/s1.jpg" alt="" style="object-fit:contain;background:#fff"></div>
+    <div class="ph r" style="--d:1.1;left:890px;top:0;width:560px;height:380px;box-shadow:0 20px 60px rgba(0,0,0,.18)"><img src="img/s2.jpg" alt="" style="object-fit:contain;background:#fff"></div>
+    <div class="doc r" style="--d:1.2;left:1480px;top:20px;width:220px;transform:rotate(3deg)"><img src="img/doc_folder.jpg" alt=""><div class="tag">Папка проекта</div></div>
+  </div>
+  <div class="pg">10</div>
+  <aside class="say">Что я сделала сама. Составила спецификацию костюмов и реквизита для фонда, который оплачивает часть постановки. Подбирала реквизит по описи художника-постановщика Михаила Гербера и проверила 332 ссылки. Сверила инсценировку с повестью и фильмом: заимствованный текст занимает 13,8 процента пьесы. Сделала схемы структуры театра и выпуска спектакля. И подготовила для отдела PR и маркетинга десять идей партнёрских проектов.</aside>
+</section>
+
+<!-- 11 ГОЛОСА ТЕАТРА 3D -->
+<section class="slide dark" id="s11">
+  <div class="ph" style="inset:0;opacity:.35"><img src="img/p12.jpg" alt=""></div>
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">02 / ГОЛОСА ТЕАТРА</div>
+  <h2 class="r" style="margin-top:100px;position:relative;z-index:2">Как говорят службы</h2>
+  <div class="stage3d" style="left:0;top:0;width:1920px;height:1080px">
+    <div class="q3" data-par="2" style="width:100%;height:100%">
+      <div class="q float" style="left:150px;top:330px;font-size:58px;color:#fff;transform:translateZ(160px) rotateY(10deg);transition-delay:.4s">Мы не начинаем репетиции <b>без подписанного договора</b><span class="who">Регламент выпуска спектакля</span></div>
+      <div class="q float" style="left:1050px;top:250px;font-size:34px;color:#ddd;transform:translateZ(-180px) rotateY(-12deg);animation-delay:-2s;transition-delay:.8s">Мы можем считать проект <b>ещё до защиты</b><span class="who">Юрий Эйвин, заведующий ХПЧ</span></div>
+      <div class="q float" style="left:1120px;top:560px;font-size:40px;color:#fff;transform:translateZ(60px) rotateY(-16deg);animation-delay:-4s;transition-delay:1.2s">Неделя худрука устроена очень хаотично, <b>очень активно</b><span class="who">Татьяна Воронова</span></div>
+      <div class="q float" style="left:220px;top:720px;font-size:32px;color:#ccc;transform:translateZ(-90px) rotateY(8deg);animation-delay:-6s;transition-delay:1.6s">Поэтому мы <b>расширяем штат творческой команды</b><span class="who">Анастасия Демакина, продюсер</span></div>
+      <div class="q float" style="left:700px;top:870px;font-size:28px;color:#aaa;transform:translateZ(-260px) rotateY(0deg);animation-delay:-1s;transition-delay:2s">Зрители <b>идут на усложнения</b><span class="who">Мария Юшина, PR и маркетинг</span></div>
+    </div>
+  </div>
+  <div class="pg">11</div>
+  <aside class="say">Мне хотелось услышать сами службы. Главное правило регламента: без подписанного договора репетиции не начинаются. В ХПЧ рассказали, что могут посчитать проект ещё до защиты. Татьяна Воронова описала неделю художественного руководителя как очень хаотичную и активную. Продюсер Анастасия Демакина объяснила, что под задачи режиссёра театр расширяет творческую команду. А Мария Юшина из отдела PR и маркетинга сказала, что зрители Бронной готовы идти на усложнения.</aside>
+</section>
+
+<!-- 12 ПИАР И ЗРИТЕЛЬ -->
+<section class="slide" id="s12">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">03 / РЕПЕРТУАР, ПИАР И ЗРИТЕЛЬ</div>
+  <h2 class="r" style="margin-top:100px">Пиар и зритель</h2>
+  <div class="cols" style="grid-template-columns:repeat(2,1fr);gap:36px 50px;margin-top:44px;width:960px">
+    <div class="card r" style="--d:.2"><div class="t">Репертуар</div><div class="x">Названия выбирает художественный руководитель, план сезона объявляют на закрытии</div></div>
+    <div class="card r" style="--d:.3"><div class="t">Продажи</div><div class="x">Плана продаж нет, цены динамические, отчёты каждый день</div></div>
+    <div class="card b r" style="--d:.4"><div class="t">Маркетинг</div><div class="x">Брендбук 2022 года устарел, новая концепция «Театр крупным планом»</div></div>
+    <div class="card r" style="--d:.5"><div class="t">Закупки</div><div class="x">На продвижение театр сам закупает в основном печать: полиграфию и баннеры</div></div>
+    <div class="card r" style="--d:.6"><div class="t">Зритель</div><div class="x">Отзывы через QR-код у гардероба; по жалобам ставят новые кресла</div></div>
+    <div class="card r" style="--d:.7"><div class="t">Слабые показы</div><div class="x">Продажи и маркетинг поддерживают их вместе</div></div>
+  </div>
+  <div style="position:absolute;left:1140px;top:170px;width:680px;height:850px">
+    <div class="ph r rr" style="--d:.3;left:0;top:0;width:680px;height:420px;box-shadow:0 20px 60px rgba(0,0,0,.2)"><img src="img/site_main.jpg" alt="" style="object-position:top"><div class="cap" style="color:#000;text-shadow:none;background:#fff;padding:2px 6px">Сайт театра · Прил. 12</div></div>
+    <div class="ph r rr" style="--d:.55;left:0;top:440px;width:330px;height:410px;box-shadow:0 20px 60px rgba(0,0,0,.2)"><img src="img/tg.jpg" alt="" style="object-position:top"><div class="cap" style="color:#000;text-shadow:none;background:#fff;padding:2px 6px">Telegram</div></div>
+    <div class="ph r rr" style="--d:.8;left:350px;top:440px;width:330px;height:410px;box-shadow:0 20px 60px rgba(0,0,0,.2);background:#fff"><img src="img/zak.jpg" alt="" style="object-fit:cover;object-position:top"><div class="cap" style="color:#000;text-shadow:none;background:#fff;padding:2px 6px">Закупки · Прил. 11</div></div>
+  </div>
+  <div class="pg">12</div>
+  <aside class="say">Третья задача практики была про зрителя. Названия выбирает художественный руководитель, план сезона объявляют на закрытии. Плана продаж нет, цены динамические, отдел продаж каждый день присылает отчёты, а слабые показы продажи и маркетинг поддерживают вместе. Брендбук у театра 2022 года, новая команда маркетинга готовит концепцию «Театр крупным планом». По открытым закупкам видно, что на продвижение театр сам закупает в основном печать: полиграфию и баннеры. Отзывы зрители оставляют через QR-код у гардероба, и театр на них отвечает: из-за жалоб на стулья в залах ставят новые кресла.</aside>
+</section>
+
+<!-- 13 РАЗДЕЛИТЕЛЬ ИТОГИ -->
+<section class="slide dark div" id="s13">
+  <div class="ph"><img src="img/p11.jpg" alt="Потолок и люстра"></div>
+  <div class="brand" style="z-index:4"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div>
+  <div class="big"><div class="no r">03</div><h1 class="r" style="--d:.2">Итоги</h1></div>
+  <aside class="say">И последнее: что я забираю с практики.</aside>
+</section>
+
+<!-- 14 ВЫВОДЫ -->
+<section class="slide" id="s14">
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div><div class="kick">03 / ВЫВОДЫ</div>
+  <h2 class="r" style="margin-top:100px">Что я забираю</h2>
+  <div class="cols" style="grid-template-columns:repeat(4,1fr);margin-top:60px">
+    <div class="card r" style="--d:.2"><div class="n">01</div><div class="t">Цикл выпуска</div><div class="x">57 этапов и продюсер в центре</div></div>
+    <div class="card r" style="--d:.35"><div class="n">02</div><div class="t">Документы</div><div class="x">Сметы, договоры, описи, спецификация, права</div></div>
+    <div class="card r" style="--d:.5"><div class="n">03</div><div class="t">Службы и цеха</div><div class="x">Как десятки людей выпускают один спектакль</div></div>
+    <div class="card r" style="--d:.65"><div class="n">04</div><div class="t">Пиар, зритель, репертуар</div><div class="x">Как продажи и маркетинг ведут зрителя</div></div>
+  </div>
+  <div class="r" style="--d:1;margin-top:80px;display:flex;align-items:center;gap:40px">
+    <div style="font-size:64px;font-weight:200;line-height:1.1">Продюсер <span class="blue" style="font-weight:800">+</span> PR</div>
+    <div style="font-size:28px;color:var(--g2);max-width:900px;line-height:1.35">Я вижу себя на стыке двух профессий: собирать спектакль как проект и приводить к нему зрителя.</div>
+  </div>
+  <div class="ph r" style="--d:.4;right:110px;top:110px;width:300px;height:200px"><img src="img/p09.jpg" alt=""></div>
+  <div class="pg">14</div>
+  <aside class="say">Я разобралась в цикле выпуска и увидела, что продюсер держит все 57 этапов. Научилась работать с документами проекта: сметами, договорами, описями, спецификацией и правами. Увидела, как десятки служб и цехов выпускают один спектакль и как продажи и маркетинг ведут зрителя. И поняла про себя: я вижу себя на стыке двух профессий, продюсера и PR-специалиста. Мне интересно и собирать спектакль как проект, и приводить к нему зрителя.</aside>
+</section>
+
+<!-- 15 СПАСИБО -->
+<section class="slide dark" id="s15">
+  <div class="ph" style="inset:0;opacity:.45"><img src="img/p10.jpg" alt=""></div>
+  <div class="brand"><img src="img/bronnaya.svg" alt=""><div>театр<br>на Бронной</div></div>
+  <div style="position:absolute;left:110px;top:300px;z-index:2">
+    <h1 class="r" style="font-size:170px">Спасибо</h1>
+    <p class="lead r" style="--d:.3;margin-top:30px;color:#ddd">Все приложения к отчёту: наведите камеру на QR-код</p>
+    <p class="r" style="--d:.5;margin-top:40px;font-size:24px;color:#aaa">Кристина Кондрина · ГИТИС · 2026</p>
+  </div>
+  <div class="r z" style="--d:.6;position:absolute;right:160px;top:290px;z-index:2;text-align:center">
+    <div id="qrbox"></div>
+    <div style="margin-top:16px;font-size:18px;color:#ddd;letter-spacing:.06em;font-weight:700">ПРИЛОЖЕНИЯ · ЯНДЕКС ДИСК</div>
+    <div id="qrlink" style="margin-top:6px;font-size:14px;color:#999;max-width:340px;word-break:break-all"></div>
+  </div>
+  <aside class="say">Спасибо! Все приложения к отчёту можно открыть по QR-коду. Я готова ответить на вопросы.</aside>
+</section>
+
+</div></div>
+
+<div class="navbtn" id="prev"></div><div class="navbtn" id="next"></div>
+<div id="bar"></div>
+<div id="notes"><div class="h">ТЕКСТ ВЫСТУПЛЕНИЯ · N скрыть</div><div id="notetext"></div></div>
+<div id="hint">← → листать · N текст · F полный экран · P речь для печати</div>
+<div id="speech"></div>
+
+<script>
+const QR_URL = ''; // ссылка на папку Яндекс Диска
+const QR_IMG = 'img/qr.png';
+const deck=document.getElementById('deck'), slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);deck.style.transform=`scale(${s})`}
+addEventListener('resize',fit);fit();
+function countUp(sl){sl.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count;const from=to>1900?to-60:0;const t0=performance.now();const dur=1600;
+  (function f(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(f)})(t0)})}
+function go(i){i=Math.max(0,Math.min(slides.length-1,i));slides[cur].classList.remove('on');cur=i;const s=slides[cur];
+  s.querySelectorAll('.r,.ph img,.line').forEach(e=>{e.style.transition='none';e.offsetWidth;e.style.transition=''});
+  requestAnimationFrame(()=>{s.classList.add('on');countUp(s);if(s.id==='s8')netAnim()});
+  document.getElementById('bar').style.width=((cur+1)/slides.length*100)+'%';
+  const say=s.querySelector('aside.say');document.getElementById('notetext').textContent=(cur+1)+'. '+(say?say.textContent:'');
+  history.replaceState(null,'','#'+(cur+1))}
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+  else if(e.key.toLowerCase()==='n'||e.key==='т')document.getElementById('notes').classList.toggle('show');
+  else if(e.key.toLowerCase()==='f'||e.key==='а'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+  else if(e.key.toLowerCase()==='p'||e.key==='з')togglePrint()});
+document.getElementById('next').onclick=()=>go(cur+1);document.getElementById('prev').onclick=()=>go(cur-1);
+let tx=0;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(cur+(d<0?1:-1))});
+// 3D parallax
+addEventListener('mousemove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
+  document.querySelectorAll('.q3').forEach(q=>{const k=+q.dataset.par||1;q.style.transform=`rotateY(${x*10*k}deg) rotateX(${-y*7*k}deg)`})});
+// network for slide 8
+const NODES=[['Художественный руководитель',460,90],['Главный художник',800,190],['Директор',860,410],['Зам. директора по тех. вопросам',770,640],['ХПЧ',460,740],['Режиссёрско-актёрское подразделение',150,640],['Маркетинг',80,410],['Продюсер',150,190]];
+function netAnim(){const net=document.getElementById('net'),svg=document.getElementById('netsvg');
+  net.querySelectorAll('.node:not(.c)').forEach(n=>n.remove());svg.innerHTML='';
+  NODES.forEach(([t,x,y],i)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',460);l.setAttribute('y1',410);l.setAttribute('x2',460);l.setAttribute('y2',410);
+    l.setAttribute('stroke',t==='Продюсер'?'#31abd2':'#000');l.setAttribute('stroke-width',t==='Продюсер'?5:2);svg.appendChild(l);
+    const d=document.createElement('div');d.className='node';d.textContent=t;d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=0;d.style.transition='opacity .6s, background .4s, color .4s';
+    if(t==='Продюсер'){d.style.borderColor='#31abd2';d.style.color='#31abd2'}net.appendChild(d);
+    setTimeout(()=>{d.style.opacity=1;const t0=performance.now();(function f(tt){const p=Math.min(1,(tt-t0)/600);l.setAttribute('x2',460+(x-460)*p);l.setAttribute('y2',410+(y-410)*p);if(p<1)requestAnimationFrame(f)})(t0)},600+i*260)});
+  let k=0;clearInterval(window.__lit);window.__lit=setInterval(()=>{const ns=net.querySelectorAll('.node:not(.c)');ns.forEach(n=>n.classList.remove('lit'));if(ns.length)ns[k++%ns.length].classList.add('lit')},1100)}
+// QR
+(function(){const b=document.getElementById('qrbox');if(QR_URL){b.innerHTML=`<img src="${QR_IMG}" alt="QR">`;document.getElementById('qrlink').textContent=QR_URL.replace(/^https?:\/\//,'')}else{b.innerHTML='<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#999;font-size:18px;text-align:center">QR появится,<br>когда будет ссылка</div>'}})();
+// speech
+function buildSpeech(){const sp=document.getElementById('speech');let h='<h1>Защита практики: текст выступления</h1><div class="sub">Кристина Кондрина · Театр на Бронной · ноябрь 2026 · 8–10 минут</div>';
+  slides.forEach((s,i)=>{const t=(s.querySelector('h1,h2')||{}).textContent||'';const say=s.querySelector('aside.say');h+=`<h3>Слайд ${i+1}. ${t.replace(/\s+/g,' ').trim()}</h3><p>${say?say.textContent:''}</p>`});sp.innerHTML=h}
+function togglePrint(){document.body.classList.toggle('print');if(document.body.classList.contains('print'))buildSpeech()}
+if(location.search.includes('speech')){buildSpeech();document.body.classList.add('print')}
+const start=parseInt(location.hash.slice(1))||1;go(start-1);
+</script>
+</body>
+</html>
